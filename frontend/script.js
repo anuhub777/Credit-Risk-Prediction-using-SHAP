@@ -1,4 +1,4 @@
-const API_URL = "https://your-service.onrender.com/predict";
+const API_URL = "https://credit-risk-prediction-using-shap.onrender.com/predict";
 
 const form = document.getElementById("loan-form");
 const analyzeBtn = document.getElementById("analyze-btn");
