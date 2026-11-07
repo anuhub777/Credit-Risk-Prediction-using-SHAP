@@ -30,11 +30,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://127.0.0.1:5500",
-        "http://localhost:5500"
+        "https://credit-risk-prediction-using-shap-1.onrender.com/"
     ],
     allow_credentials=True,
     allow_methods=["*"],
