@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080d19" />
+  <title>Credence — Credit Risk Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient ambient-three"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Credence home">
+      <span class="brand-mark"><span></span><span></span><span></span></span>
+      <span>CREDENCE<span class="brand-dot">.</span></span>
+    </a>
+    <div class="topbar-right">
+      <span class="system-status"><i></i> MODEL API</span>
+      <span class="topbar-divider"></span>
+      <span class="topbar-caption">CREDIT INTELLIGENCE</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="intro">
+      <div class="eyebrow"><span class="eyebrow-line"></span> AI-POWERED UNDERWRITING</div>
+      <h1>See the risk.<br><span>Understand the why.</span></h1>
+      <p class="intro-copy">Evaluate a loan application with your machine-learning model. Enter applicant details to generate a default-risk estimate in seconds.</p>
+      <div class="intro-meta">
+        <span><b class="meta-icon">✳</b> Intelligent assessment</span>
+        <span><b class="meta-icon">⌁</b> Real-time prediction</span>
+        <span><b class="meta-icon">◈</b> Threshold-based decision</span>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="form-panel panel">
+        <div class="panel-heading">
+          <div>
+            <div class="section-kicker">APPLICATION DETAILS <span>01 / 02</span></div>
+            <h2>Applicant profile</h2>
+            <p>Complete the information below to assess the application.</p>
+          </div>
+          <div class="heading-symbol">↗</div>
+        </div>
+
+        <div class="quick-fill">
+          <span>QUICK FILL</span>
+          <button type="button" class="sample-btn" data-sample="low">Low-risk sample</button>
+          <button type="button" class="sample-btn" data-sample="medium">Balanced sample</button>
+          <button type="button" class="sample-btn" data-sample="high">High-risk sample</button>
+        </div>
+
+        <form id="loan-form">
+          <div class="form-section">
+            <div class="form-section-title"><span class="section-number">01</span> Personal &amp; financial</div>
+            <div class="field-grid">
+              <label class="field">
+                <span>Applicant age</span>
+                <div class="input-wrap"><input name="person_age" type="number" min="1" max="100" value="30" required /><span class="unit">YEARS</span></div>
+              </label>
+              <label class="field">
+                <span>Annual income</span>
+                <div class="input-wrap"><span class="prefix">₹</span><input name="person_income" type="number" min="1" step="1000" value="100000" required /></div>
+              </label>
+              <label class="field">
+                <span>Home ownership</span>
+                <select name="person_home_ownership" required>
+                  <option value="RENT">Rent</option><option value="OWN" selected>Own</option><option value="MORTGAGE">Mortgage</option><option value="OTHER">Other</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Employment length</span>
+                <div class="input-wrap"><input name="person_emp_length" type="number" min="0" max="100" step="0.5" value="8" required /><span class="unit">YEARS</span></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title"><span class="section-number">02</span> Loan information</div>
+            <div class="field-grid">
+              <label class="field">
+                <span>Loan purpose</span>
+                <select name="loan_intent" required>
+                  <option value="EDUCATION">Education</option><option value="PERSONAL">Personal</option><option value="MEDICAL">Medical</option><option value="VENTURE">Venture</option><option value="HOMEIMPROVEMENT">Home improvement</option><option value="DEBTCONSOLIDATION">Debt consolidation</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Loan grade</span>
+                <select name="loan_grade" required>
+                  <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Loan amount</span>
+                <div class="input-wrap"><span class="prefix">₹</span><input name="loan_amnt" type="number" min="1" step="500" value="5000" required /></div>
+              </label>
+              <label class="field">
+                <span>Interest rate</span>
+                <div class="input-wrap"><input name="loan_int_rate" type="number" min="0.01" max="100" step="0.1" value="7.5" required /><span class="unit">%</span></div>
+              </label>
+              <label class="field">
+                <span>Loan / income ratio</span>
+                <div class="input-wrap"><input name="loan_percent_income" id="loan-percent-income" type="number" min="0.0001" step="0.0001" value="0.05" required /><span class="unit">AUTO</span></div>
+                <small>Calculated from loan amount ÷ annual income. You can edit it.</small>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title"><span class="section-number">03</span> Credit history</div>
+            <div class="field-grid">
+              <label class="field">
+                <span>Previous default on file</span>
+                <select name="cb_person_default_on_file"><option value="N">No</option><option value="Y">Yes</option></select>
+              </label>
+              <label class="field">
+                <span>Credit history length</span>
+                <div class="input-wrap"><input name="cb_person_cred_hist_length" type="number" min="0" max="100" value="8" required /><span class="unit">YEARS</span></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <p><span class="lock-icon">⌑</span> Your input is sent to your local prediction API.</p>
+            <button type="submit" class="analyze-btn" id="analyze-btn">
+              <span class="btn-label">Analyze application</span><span class="btn-arrow">↗</span>
+              <span class="spinner"></span>
+            </button>
+          </div>
+          <p class="form-error" id="form-error" role="alert"></p>
+        </form>
+      </div>
+
+      <aside class="result-panel panel" id="result-panel">
+        <div class="result-topline">
+          <div class="section-kicker">RISK ASSESSMENT <span>02 / 02</span></div>
+          <span class="live-tag"><i></i> LIVE RESULT</span>
+        </div>
+        <div class="result-empty" id="result-empty">
+          <div class="orbit">
+            <div class="orbit-ring ring-a"></div><div class="orbit-ring ring-b"></div>
+            <div class="orbit-core"><span>✳</span></div>
+            <i class="orbit-dot dot-a"></i><i class="orbit-dot dot-b"></i>
+          </div>
+          <h3>Ready when you are.</h3>
+          <p>Your assessment will appear here once you submit an application.</p>
+          <div class="empty-foot"><span></span> AWAITING APPLICATION DATA <span></span></div>
+        </div>
+
+        <div class="result-content hidden" id="result-content">
+          <div class="result-label">PREDICTED DEFAULT RISK</div>
+          <div class="risk-gauge" id="risk-gauge">
+            <div class="gauge-inner">
+              <strong id="probability-value">—%</strong>
+              <span>DEFAULT PROBABILITY</span>
+            </div>
+          </div>
+          <div class="risk-status" id="risk-status">
+            <span class="status-indicator"></span><span id="risk-status-text">—</span>
+          </div>
+          <p class="result-description" id="result-description"></p>
+
+          <div class="decision-card">
+            <div class="decision-row"><span>Model decision</span><strong id="prediction-value">—</strong></div>
+            <div class="decision-row"><span>Decision threshold</span><strong id="threshold-value">—</strong></div>
+            <div class="threshold-track"><span id="threshold-marker"></span><i id="probability-marker"></i></div>
+            <div class="track-labels"><span>0%</span><span>Threshold</span><span>100%</span></div>
+          </div>
+          <div class="result-note"><span>ⓘ</span><p>This is a model-generated estimate, not a lending decision. Review the applicant's full circumstances before taking action.</p></div>
+          <button type="button" class="reset-btn" id="reset-btn">↺ &nbsp; Analyze another application</button>
+        </div>
+        <div class="api-error hidden" id="api-error">
+          <div class="error-icon">!</div><h3>Couldn't reach the model</h3>
+          <p id="api-error-message">Check that your FastAPI server is running.</p>
+          <button type="button" class="reset-btn" id="retry-btn">Try again</button>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="page-footer">
+      <span> CREDENCE <span class="brand-dot">.</span> <span class="footer-muted">CREDIT RISK INTELLIGENCE</span></span>
+      <span>POWERED BY YOUR ML MODEL <b>✳</b></span>
+    </footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
