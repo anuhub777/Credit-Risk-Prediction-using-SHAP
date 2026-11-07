@@ -1,21 +1,28 @@
 
 from contextlib import asynccontextmanager
 from pathlib import Path
-from fastapi.middleware.cors import CORSMiddleware
 
-from fastapi import FastAPI
-from pydantic import BaseModel, Field
 import joblib
 import pandas as pd
 
-ml_model = {}
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
+
 
 BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_DIR = BASE_DIR / "frontend"
+
+ml_model = {}
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    ml_model["model"] = joblib.load(BASE_DIR / "credit_risk_model.pkl")
+    # Load model and threshold when the application starts
+    ml_model["model"] = joblib.load(
+        BASE_DIR / "credit_risk_model.pkl"
+    )
+
     ml_model["best_threshold"] = float(
         joblib.load(BASE_DIR / "best_threshold.pkl")
     )
@@ -28,17 +35,11 @@ async def lifespan(app: FastAPI):
     ml_model.clear()
 
 
-app = FastAPI(lifespan=lifespan)
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "https://credit-risk-prediction-using-shap-1.onrender.com/"
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+app = FastAPI(
+    title="Credence - Credit Risk Prediction API",
+    description="Credit default risk prediction using machine learning.",
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 
@@ -56,11 +57,6 @@ class LoanApplication(BaseModel):
     cb_person_cred_hist_length: int = Field(ge=0)
 
 
-@app.get("/")
-def greet():
-    return {"message": "Hello, Anubhav!"}
-
-
 @app.post("/predict")
 def predict(data: LoanApplication):
 
@@ -70,9 +66,12 @@ def predict(data: LoanApplication):
 
     probabilities = model.predict_proba(input_df)
 
-    # Find the probability corresponding to the default class (1)
+    # Find probability corresponding to default class 1
     class_index = list(model.classes_).index(1)
-    probability = float(probabilities[0, class_index])
+
+    probability = float(
+        probabilities[0, class_index]
+    )
 
     threshold = ml_model["best_threshold"]
 
@@ -84,3 +83,12 @@ def predict(data: LoanApplication):
         "threshold": threshold,
         "Result": "High Risk" if prediction == 1 else "Low Risk"
     }
+
+
+# Serve the frontend AFTER defining API routes.
+# This allows /predict to be handled by FastAPI first.
+app.mount(
+    "/",
+    StaticFiles(directory=FRONTEND_DIR, html=True),
+    name="frontend"
+)
