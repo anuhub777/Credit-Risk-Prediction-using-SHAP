@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/predict";
+const API_URL = "https://your-service.onrender.com/predict";
 
 const form = document.getElementById("loan-form");
 const analyzeBtn = document.getElementById("analyze-btn");
